@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <string.h>
+
+#define PRINT_ARRAY(array, num) \
+    for (int i = 0; (i < num) || (printf("\n") && false); print(&array[i]),i++)
 
 #define SWAP(a, b)      \
     do {                \
@@ -27,9 +31,15 @@ bool compare_descend(int a, int b)
     return a < b;
 }
 
+bool compare_int_ascend(const void *_a, const void *_b)
+{
+    return *(int *)_a > *(int *)_b;
+}
+
+
 typedef struct {
     char *name;
-    int grade;
+    int score;
 } Student;
 
 /**
@@ -40,22 +50,26 @@ typedef struct {
  * @return true
  * @return false
  */
-bool compare_ascend_generic(const void *_a, const void *_b)
+bool compare_descend_generic(const void *_a, const void *_b)
 {
     const Student *a = (const Student *)_a;
     const Student *b = (const Student *)_b;
 
-    return (a->grade == b->grade && strcmp(a->name, b->name)) ||
-           (a->grade < b->grade);
+    return (a->score == b->score && strcmp(a->name, b->name)) ||
+           (a->score < b->score);
 }
 
-void bubble_sort3(void *data[], int size, int num, bool (*compare)(const void *, const void *))
+void bubble_sort3(void *data, int size, int num,
+                  bool (*compare)(const void *, const void *))
 {
     int i, j;
+    uint8_t *oprand1, *oprand2;
     for (i = 0; i < num; i++) {
         for (j = 0; j < num - i - 1; j++) {
-            if (compare(data[j], data[j+1])) {
-                SWAP_GENERIC(data[j], data[j+1], size);
+            oprand1 = (uint8_t *)data + j * size;
+            oprand2 = (uint8_t *)data + (j + 1) * size;
+            if (compare(oprand1, oprand2)) {
+                SWAP_GENERIC(oprand1, oprand2, size);
             }
         }
     }
@@ -68,7 +82,8 @@ void bubble_sort3(void *data[], int size, int num, bool (*compare)(const void *,
  * @param num
  * @param compare
  */
-void bubble_sort2(int *data, int num, bool (*compare)(int, int))
+void bubble_sort2(int *data, int num,
+                  bool (*compare)(int, int))
 {
     int i, j;
     for (i = 0; i < num; i++) {
@@ -108,7 +123,7 @@ void bubble_sort(int *data, int num)
 
 void print(Student *s)
 {
-    printf("grade : %d, name : %s\n", s->grade, s->name);
+    printf("grade : %d, name : %s\n", s->score, s->name);
 }
 
 int main(int argc, char const *argv[])
@@ -118,23 +133,17 @@ int main(int argc, char const *argv[])
 
     Student data[5] = {
         {
-            .grade = 100,
+            .score = 100,
             .name = "alice",
         },
         {
-            .grade = 90,
+            .score = 90,
             .name = "GGG",
         },
         {
-            .grade = 90,
+            .score = 90,
             .name = "FFF",
         }
-    };
-
-    Student *p[5] = {
-        &data[0],
-        &data[1],
-        &data[2],
     };
 
     num = 3;
@@ -143,9 +152,12 @@ int main(int argc, char const *argv[])
     // bubble_sort1(array, num - 1);
     // bubble_sort2(array, num, compare_ascend);
     // bubble_sort2(array, num, compare_descend);
-    bubble_sort3((void **)p, sizeof(Student), num, compare_ascend_generic);
+    bubble_sort3(data, sizeof(Student), num, compare_descend_generic);
+    PRINT_ARRAY(data, num);
 
-    for (int i = 0; (i < num) || (printf("\n") && false); print(p[i]),i++);
+    bubble_sort3(array, sizeof(int), 5, compare_int_ascend);
+    for (int i = 0; (i < 5) || (printf("\n") && false);
+         printf("%d ", array[i]),i++);
 
     return 0;
 }

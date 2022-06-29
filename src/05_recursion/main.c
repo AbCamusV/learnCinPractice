@@ -9,6 +9,7 @@
  *
  */
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 
 /* 阶乘函数，返回n! */
@@ -21,6 +22,17 @@ int factorial(int n)
     }
 
     return n * factorial(n - 1);
+}
+
+int factorial_tail_recursive(int n, int state)
+{
+    if (n <= 0) {
+        return 0;
+    } else if (n == 1) {
+        return state;
+    } else {
+        return factorial_tail_recursive(n - 1, n * state);
+    }
 }
 
 int factorial_iter(int n)
@@ -60,16 +72,29 @@ void build_linked_list(struct LList *head, int num)
     }
 }
 
-int main(int argc, char const *argv[])
+static void test_factorial()
 {
+    unsigned answer = factorial_iter(10);
     /* 第一个例子：阶乘 */
     printf("%d\n", factorial(10));
-    assert(factorial(10) == factorial_iter(10));
+    assert(factorial(10) == answer);
 
+    /* 尾递归阶乘 */
+    assert(factorial_tail_recursive(10, 1) == answer);
+}
+
+static void test_linked_list()
+{
     /* 第二个例子：删除链表 */
     struct LList head;
     build_linked_list(&head, 10);
     delete_linked_list(&head);
+}
+
+int main(int argc, char const *argv[])
+{
+    test_factorial();
+    test_linked_list();
 
     return 0;
 }

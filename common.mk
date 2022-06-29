@@ -1,7 +1,7 @@
 SRC := $(wildcard *.c)
 OBJS := $(patsubst %.c, %.o, $(SRC))
 DEP := $(patsubst %.c, %.d, $(SRC))
-CFLAGS := -Wall -g
+CFLAGS := -Wall -g $(INC)
 RM := rm -rf
 CC := gcc
 
