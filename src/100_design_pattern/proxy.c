@@ -33,6 +33,7 @@ bool create_house(Width width, Height height, Color color)
     proxy.height = height;
     proxy.color = color;
     proxy.ready = true;
+    return true;
 }
 
 Width get_house_width()
@@ -42,7 +43,7 @@ Width get_house_width()
 
 bool is_house_ready()
 {
-    return proxy.ready; 
+    return proxy.ready;
 }
 
 void start_car_proxy()

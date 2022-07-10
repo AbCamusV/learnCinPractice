@@ -5,7 +5,7 @@
 
 /* 仅支持type-c口的Device */
 static void plugin_device(Device *headphone, TypeCHost *host)
-{	
+{
     /* 耳机插入手机中 */
     printf("plugin typec headphone\n");
 }
@@ -30,6 +30,7 @@ int plugin_legacy_device(LegacyDevice *dev, TypeCHost *host)
     }
     plugin_legacy_host(g_legacyHost, host);
     adapt_legacy_device(dev, g_legacyHost);
+    return 0;
 }
 
 void demo_adapter()

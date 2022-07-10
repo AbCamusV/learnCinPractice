@@ -35,4 +35,5 @@ HandleResult handle_request(void *handler, void *_req)
             return result;
         }
     }
+    return SUCCESS;
 }

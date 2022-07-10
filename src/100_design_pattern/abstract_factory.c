@@ -4,11 +4,12 @@
  * @brief 抽象工厂模式
  * @version 0.1
  * @date 2022-04-24
- * 
+ *
  * @copyright Copyright (c) 2022
- * 
+ *
  */
 
+#include <stdlib.h>
 #include "factory.h"
 
 extern CarFactory *get_porsche_factory();
@@ -25,6 +26,7 @@ CarFactory *get_car_factory(enum CarFactoryType car_type)
     default:
         break;
     }
+    return NULL;
 }
 
 void test_abstract_factory()

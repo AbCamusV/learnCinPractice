@@ -18,7 +18,7 @@ int main(int argc, char const *argv[])
     char *addr = malloc(1);
     uint64_t word0 = *(uint64_t *)(addr - 16);
     uint64_t word1 = *(uint64_t *)(addr - 8);
-    printf("%lld, %lld\n", word0, word1);
+    printf("%lu, %lu\n", word0, word1);
     free(addr);
 
     return 0;

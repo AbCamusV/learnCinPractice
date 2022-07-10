@@ -21,4 +21,6 @@ static struct Coffee *produce_coffee_with_sugar(void *self)
     Producer *coffeeProducer = &p->cofferProcuder;
     struct Coffee *coffee = coffeeProducer->produce(coffeeProducer);
     // TODO: 给咖啡加点糖
+
+    return coffee;
 }
